@@ -1,16 +1,11 @@
 # x= [1,2,3,4]
 # print(len(x))
 
-print(12%2)
+lst= ['touchMe', 'Sebsatain', 'heroHero', 'yuri alpha', 'Aura']
 
-#Pavlion first commit
+first_slice = lst[::-1]
+# second_slice = first_slice[:y]
+# third_slice = second_slice[x:]
+last_slice = first_slice[::1]
 
-user_input = input("Enter an integer: ")
-
-if user_input.isdigit():
-    name = input("What is your name? ")
-
-    print("Hello,", name.upper())
-else:
-    print(user_input.capitalize())
-
+print(last_slice)

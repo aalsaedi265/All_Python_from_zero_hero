@@ -37,3 +37,13 @@ for name in list:
         break;
 else:
     print('keeping looking for world champin')
+    
+x=0  
+while x < 5:
+    print(x)
+    x+=1
+
+while i < len(list):
+    pass
+else:
+    pass
