@@ -15,3 +15,8 @@ strings=['touchMe', 'Sebsatain', 'heroHero', 'yuri alpha', 'Aura']
 arr=[]
 for idx in  range(1,len(strings)):
     print(strings[idx])
+
+people = {"Tim": 21, "Joe": 18, "Sarah": 25, "Jennie": 26, "Bill": 34}
+
+result = sorted(people, key=people.get)
+print(result)
