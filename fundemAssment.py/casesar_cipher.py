@@ -17,7 +17,8 @@ def verison_1_caesar_cipher(string='hello', offset=3):
         
         idx_num = abs(num-offset)%26
         result.append(alphabet[idx_num])
-    return result 
+        
+    return ''.join(result) 
         
       
         
