@@ -3,11 +3,9 @@ class FileSystem:
         self.root = Directory("/")
 
     def create_directory(self, path):
-        # Write your code here.
         FileSystem._validate_path(path)
 
         path_node_names = path[1:].split("/")#removes the first, spectatres paths by /
-
         middle_node_names = path_node_names[:-1] #full path bfore the last folder
         new_directory_name = path_node_names[-1] #last folder
 #will find the folder to place the path inside
@@ -20,87 +18,71 @@ class FileSystem:
 
         before_last_node.add_node(new_directory)
 
-
-
-
     def create_file(self, path, contents):
-
-           # Write your code here.
         FileSystem._validate_path(path)
 
-        path_node_names = path[1:].split('/')#removes the first, spectatres paths by /
+        path_node_names = path[1:].split("/")
+        middle_node_names = path_node_names[:-1]
+        new_file_name = path_node_names[-1]
 
-        middle_node_names= path[:-1] #full path bfore the last folder
-        new_file_name = path_node_names[-1] #last folder
-#will find the folder to place the path inside
         before_last_node = self._find_bottom_node(middle_node_names)
-
+        
         if not isinstance(before_last_node, Directory):
             raise ValueError(f"{before_last_node.name} isn't a directory.")
-
-        new_file = File(new_directory_name)
-
-        new_file.write_contents(contains)
+        
+        new_file = File(new_file_name)
+        new_file.write_contents(contents)
 
         before_last_node.add_node(new_file)
 
     def read_file(self, path):
-        # Write your code here.
-                   # Write your code here.
         FileSystem._validate_path(path)
 
-        path_node_names = path[1:].split('/')#removes the first, spectatres paths by /
+        path_node_names = path[1:].split('/')
+        middle_node_names = path_node_names[:-1]
+        file_name = path_node_names[-1]
 
-        middle_node_names= path[:-1] #full path bfore the last folder
-        new_file_name = path_node_names[-1] #last folder
-#will find the folder to place the path inside
         before_last_node = self._find_bottom_node(middle_node_names)
-
+        
         if not isinstance(before_last_node, Directory):
             raise ValueError(f"{before_last_node.name} isn't a directory.")
-        
+
         if file_name not in before_last_node.children:
             raise ValueError(f"File not found: {file_name}.")
-
+            
         return before_last_node.children[file_name].contents
 
-
     def delete_directory_or_file(self, path):
-             # Write your code here.
-                   # Write your code here.
         FileSystem._validate_path(path)
 
-        path_node_names = path[1:].split('/')#removes the first, spectatres paths by /
+        path_node_names = path[1:].split("/")
+        middle_node_names = path_node_names[:-1]
+        node_to_delete_name = path_node_names[-1]
 
-        middle_node_names= path[:-1] #full path bfore the last folder
-        node_to_delete_name = path_node_names[-1] #last folder
-#will find the folder to place the path inside
         before_last_node = self._find_bottom_node(middle_node_names)
-
+        
         if not isinstance(before_last_node, Directory):
             raise ValueError(f"{before_last_node.name} isn't a directory.")
 
         if node_to_delete_name not in before_last_node.children:
-            raise ValueError(f"Node not found: {node_to_delete_name}")
-
+            raise ValueError(f"Node not found: {node_to_delete_name}.")
+            
         before_last_node.delete_node(node_to_delete_name)
 
-
     def size(self):
-        # Write your code here.
         size = 0
-        nodes = [self.root ] #stack, of elements going in
+        nodes = [self.root]
         while len(nodes) > 0:
             current_node = nodes.pop()
             if isinstance(current_node, Directory):
-                children = list(current_node.children.value())
+                children = list(current_node.children.values())
                 nodes.extend(children)
                 continue
-            if isinstance(current_node, File):
-                size+= len(current_node)
-        return size;
 
-        pass
+            if isinstance(current_node, File):
+                size += len(current_node)
+
+        return size
 
     def __str__(self):
         return f"*** FileSystem ***\n" + self.root.__str__() + "\n***"
@@ -111,19 +93,18 @@ class FileSystem:
             raise ValueError("Path should start with `/`.")
 
 
-    def _find_bottom_node(self, node_names):#array of string
-        # Write your code here.
-
+    def _find_bottom_node(self, node_names):
         current_node = self.root
         for node_name in node_names:
-            if not isinstance(current_node, node_name): #check if its deictroy or file
+            if not isinstance(current_node, Directory):
                 raise ValueError(f"{current_node.name} isn't a directory.")
-            
+
             if node_name not in current_node.children:
-                raise ValueError(f"Node node found: {node_name}.")
-                
+                raise ValueError(f"Node not found: {node_name}.")
+
             current_node = current_node.children[node_name]
-            return current_node
+            
+        return current_node
 
 
 class Node:
